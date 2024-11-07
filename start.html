@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Start - Maven Digital Marketing</title>
+    <meta name="description" content="XXX">
+    <link rel="canonical" href="https://mavendigital.net/start">
+    <meta property="og:title" content="Patient Onboarding - Maven Digital Marketing">
+    <meta property="og:description" content="XXX">
+    <meta property="og:image" content="https://mavendigital.net/images/social-share-image.jpg">
+    <meta property="og:url" content="https://mavendigital.net/start">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Patient Onboarding - Maven Digital Marketing">
+    <meta name="twitter:description" content="XXX">
+    <meta name="twitter:image" content="https://mavendigital.net/img/social-share-image.jpg">
+    <meta name="twitter:url" content="https://mavendigital.net/start">
+    <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Maven Digital Marketing",
+      "url": "https://mavendigital.net",
+      "description": "XXX",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Maven Digital Marketing",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mavendigital.net/img/2023-08-manu-main.jpg"
+        }
+      }
+    }
+    </script>
+    <link rel="icon" href="https://mavendigital.net/wp-content/uploads/2024/01/cropped-favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Hotjar Tracking Code for Maven Digital Marketing -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:5199876,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #00C3E1, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .divider {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="https://mavendigital.net">
+            <img src="img/logo-side-light.png" alt="Maven Digital Marketing Logo" style="width:400px; height:auto;">
+        </a>
+    </div>
+    <div class="content-container">
+        <div class="content">
+            <h1>Transform Your Marketing</h1>
+            <h2>Complete our form to see if you're approved.</h2>
+            <p>Enter your email and phone number below to get started or pick up where you left off.</p>
+            <p><i>This step helps us verify your current application status. No information is collected or stored.</i></p>
+            <form id="emailForm" onsubmit="checkEmail(event)">
+    			<div class="input-wrapper">
+        			<input type="email" id="email" placeholder="Enter your email*" required>
+    			</div>
+    			<div class="input-wrapper">
+                    <input type="tel" id="phone" placeholder="Enter your phone number*" required>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+    			<div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onTurnstileVerified"></div>
+			</form>
+			<hr class="divider">
+            <div id="overlayMessage" class="message"></div>
+            <div id="loading" class="message info" style="display: none;">Processing...</div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay" style="display: none;">
+    	<div class="overlay-content">
+        	<p id="overlayMessageContent" class="message"></p>
+        	<button onclick="closeOverlay()" class="close-button">Close</button>
+    	</div>
+	</div>
+    <div class="footer">
+        &copy; Copyright 2024 Maven Digital Marketing | Developed by <a href="https://mavenx.co">Maven X LLC</a> | All Rights Reserved
+    </div>
+
+<script>
+function timeoutPromise(ms, message) {
+    return new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(message)), ms)
+    );
+}
+
+function formatPhoneNumber(phone) {
+    // Remove any characters that are not digits
+    phone = phone.replace(/\D/g, '');
+
+    // If the phone number doesn't start with a country code, assume it's a US number and add +1
+    if (phone.length === 10) {
+        phone = '1' + phone;
+    }
+
+    // Add the '+' sign for the country code
+    return '+' + phone;
+}
+
+function checkEmail(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    const messageElement = document.getElementById('overlayMessageContent');
+    const loadingElement = document.getElementById('loading');
+    const overlay = document.getElementById('overlay');
+    const turnstileToken = document.querySelector('.cf-turnstile').dataset.token;
+    
+    // Format the phone number
+    phone = formatPhoneNumber(phone);
+
+    // Ensure Turnstile is verified before proceeding
+    if (!turnstileToken) {
+        loadingElement.style.display = 'none'; // Hide the loading animation
+        messageElement.innerHTML = "<b>⚠️ Warning ⚠️</b><br>You must receive a 'Success' CAPTCHA verification before being able to continue.";
+        messageElement.className = "message error";
+        overlay.style.display = 'flex';
+        messageElement.style.display = 'block';
+        return; // Stop further execution if Turnstile is not verified
+    }
+
+    // Show the loading animation
+    loadingElement.style.display = 'block';
+
+    Promise.race([
+        fetch('https://hook.us1.make.com/ghqzywf5xisue9nhzxxiir6mqm6z8c7q', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, phone: phone, turnstileToken: turnstileToken })
+        }).then(response => response.json()),
+        timeoutPromise(10000, "The request timed out. Please try again.")
+    ])
+    .then(data => {
+        loadingElement.style.display = 'none'; // Hide the loading animation
+
+        if (data.status === "existing" || data.status === "completed") {
+            messageElement.innerHTML = "<b>🎉 Success! 🎉</b><br>Please check your email and text messages for further information.";
+            messageElement.className = "message info";
+            overlay.style.display = 'flex';
+            messageElement.style.display = 'block';
+        } else if (data.status === "new") {
+            window.location.href = data.redirectUrl;
+            return; // Stop further execution to avoid showing overlay
+        } else {
+            messageElement.innerHTML = "<b>🔴 Error 🔴</b><br>We're sorry, an error occurred. If you continue to receive this error, please contact mdm@mavenx.co";
+            messageElement.className = "message error";
+            overlay.style.display = 'flex';
+            messageElement.style.display = 'block';
+        }
+    })
+    .catch(error => {
+        loadingElement.style.display = 'none'; // Hide the loading animation
+        messageElement.innerHTML = "<b>🔴 Error 🔴</b><br>We're sorry, an error occurred. If you continue to receive this error, please contact mdm@mavenx.co";
+        messageElement.className = "message error";
+        overlay.style.display = 'flex';
+        messageElement.style.display = 'block';
+    });
+}
+
+function closeOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function onTurnstileVerified(token) {
+    // Save the token in the Turnstile element's data attribute
+    document.querySelector('.cf-turnstile').dataset.token = token;
+    console.log('Turnstile verified:', token);
+}
+</script>
+</body>
+</html>
