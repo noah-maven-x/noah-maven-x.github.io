@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pathname = window.location.pathname;
 
     // Load specific functions based on the current page
-    if (pathname.includes('onboard')) {
+    if (pathname.includes('application')) {
         setupProgressBar(25, "Welcome! Let's get started with your onboarding.");
     } else if (pathname.includes('plans')) {
         loadPlansTypeform();
