@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Start - Maven Digital Marketing</title>
     <meta name="description" content="XXX">
-    <link rel="canonical" href="https://mavendigital.net/start">
+    <link rel="canonical" href="https://onboard.mavendigital.net/">
     <meta property="og:title" content="Patient Onboarding - Maven Digital Marketing">
     <meta property="og:description" content="XXX">
     <meta property="og:image" content="https://mavendigital.net/wp-content/uploads/2024/11/social-share.jpg">
-    <meta property="og:url" content="https://mavendigital.net/start">
+    <meta property="og:url" content="https://onboard.mavendigital.net/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Patient Onboarding - Maven Digital Marketing">
     <meta name="twitter:description" content="XXX">
     <meta name="twitter:image" content="https://mavendigital.net/wp-content/uploads/2024/11/social-share.jpg">
-    <meta name="twitter:url" content="https://mavendigital.net/start">
+    <meta name="twitter:url" content="https://onboard.mavendigital.net/">
     <meta name="robots" content="index, follow">
     <script type="application/ld+json">
     {
@@ -63,7 +63,7 @@
 <body>
     <div class="header">
         <a href="https://mavendigital.net">
-            <img src="img/logo-side-light.png" alt="Maven Digital Marketing Logo" style="width:400px; height:auto;">
+            <img src="img/logo-side-light.png" alt="Maven Digital Marketing Logo">
         </a>
     </div>
     <div class="content-container">
@@ -97,95 +97,6 @@
         &copy; Copyright 2024 Maven Digital Marketing | Developed by <a href="https://mavenx.co">Maven X LLC</a> | All Rights Reserved
     </div>
 
-<script>
-function timeoutPromise(ms, message) {
-    return new Promise((_, reject) =>
-        setTimeout(() => reject(new Error(message)), ms)
-    );
-}
-
-function formatPhoneNumber(phone) {
-    // Remove any characters that are not digits
-    phone = phone.replace(/\D/g, '');
-
-    // If the phone number doesn't start with a country code, assume it's a US number and add +1
-    if (phone.length === 10) {
-        phone = '1' + phone;
-    }
-
-    // Add the '+' sign for the country code
-    return '+' + phone;
-}
-
-function checkEmail(event) {
-    event.preventDefault();
-    const email = document.getElementById('email').value;
-    let phone = document.getElementById('phone').value;
-    const messageElement = document.getElementById('overlayMessageContent');
-    const loadingElement = document.getElementById('loading');
-    const overlay = document.getElementById('overlay');
-    const turnstileToken = document.querySelector('.cf-turnstile').dataset.token;
-    
-    // Format the phone number
-    phone = formatPhoneNumber(phone);
-
-    // Ensure Turnstile is verified before proceeding
-    if (!turnstileToken) {
-        loadingElement.style.display = 'none'; // Hide the loading animation
-        messageElement.innerHTML = "<b>⚠️ Warning ⚠️</b><br>You must receive a 'Success' CAPTCHA verification before being able to continue.";
-        messageElement.className = "message error";
-        overlay.style.display = 'flex';
-        messageElement.style.display = 'block';
-        return; // Stop further execution if Turnstile is not verified
-    }
-
-    // Show the loading animation
-    loadingElement.style.display = 'block';
-
-    Promise.race([
-        fetch('https://hook.us1.make.com/ghqzywf5xisue9nhzxxiir6mqm6z8c7q', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, phone: phone, turnstileToken: turnstileToken })
-        }).then(response => response.json()),
-        timeoutPromise(10000, "The request timed out. Please try again.")
-    ])
-    .then(data => {
-        loadingElement.style.display = 'none'; // Hide the loading animation
-
-        if (data.status === "existing" || data.status === "completed") {
-            messageElement.innerHTML = "<b>🎉 Success! 🎉</b><br>Please check your email and text messages for further information.";
-            messageElement.className = "message info";
-            overlay.style.display = 'flex';
-            messageElement.style.display = 'block';
-        } else if (data.status === "new") {
-            window.location.href = data.redirectUrl;
-            return; // Stop further execution to avoid showing overlay
-        } else {
-            messageElement.innerHTML = "<b>🔴 Error 🔴</b><br>We're sorry, an error occurred. If you continue to receive this error, please contact mdm@mavenx.co";
-            messageElement.className = "message error";
-            overlay.style.display = 'flex';
-            messageElement.style.display = 'block';
-        }
-    })
-    .catch(error => {
-        loadingElement.style.display = 'none'; // Hide the loading animation
-        messageElement.innerHTML = "<b>🔴 Error 🔴</b><br>We're sorry, an error occurred. If you continue to receive this error, please contact mdm@mavenx.co";
-        messageElement.className = "message error";
-        overlay.style.display = 'flex';
-        messageElement.style.display = 'block';
-    });
-}
-
-function closeOverlay() {
-    document.getElementById('overlay').style.display = 'none';
-}
-
-function onTurnstileVerified(token) {
-    // Save the token in the Turnstile element's data attribute
-    document.querySelector('.cf-turnstile').dataset.token = token;
-    console.log('Turnstile verified:', token);
-}
-</script>
+    <script src="javascript/scripts.js"></script>
 </body>
 </html>

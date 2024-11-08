@@ -94,6 +94,112 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Start Page
+function timeoutPromise(ms, message) {
+    return new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(message)), ms)
+    );
+}
+
+function formatPhoneNumber(phone) {
+    // Remove any characters that are not digits
+    phone = phone.replace(/\D/g, '');
+
+    // If the phone number doesn't start with a country code, assume it's a US number and add +1
+    if (phone.length === 10) {
+        phone = '1' + phone;
+    }
+
+    // Add the '+' sign for the country code
+    return '+' + phone;
+}
+
+function checkEmail(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    const messageElement = document.getElementById('overlayMessageContent');
+    const loadingElement = document.getElementById('loading');
+    const overlay = document.getElementById('overlay');
+    const turnstileToken = document.querySelector('.cf-turnstile').dataset.token;
+    
+    // Format the phone number
+    phone = formatPhoneNumber(phone);
+
+    // Ensure Turnstile is verified before proceeding
+    if (!turnstileToken) {
+        loadingElement.style.display = 'none'; // Hide the loading animation
+        messageElement.innerHTML = "<b>⚠️ Warning ⚠️</b><br>You must receive a 'Success' CAPTCHA verification before being able to continue.";
+        messageElement.className = "message error";
+        overlay.style.display = 'flex';
+        messageElement.style.display = 'block';
+        return; // Stop further execution if Turnstile is not verified
+    }
+
+    // Show the loading animation
+    loadingElement.style.display = 'block';
+
+    Promise.race([
+        fetch('https://hook.us1.make.com/ghqzywf5xisue9nhzxxiir6mqm6z8c7q', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, phone: phone, turnstileToken: turnstileToken })
+        }).then(response => response.json()),
+        timeoutPromise(10000, "The request timed out. Please try again.")
+    ])
+    .then(data => {
+        loadingElement.style.display = 'none'; // Hide the loading animation
+
+        if (data.status === "existing" || data.status === "completed") {
+            messageElement.innerHTML = "<b>🎉 Success! 🎉</b><br>Please check your email and text messages for further information.";
+            messageElement.className = "message info";
+            overlay.style.display = 'flex';
+            messageElement.style.display = 'block';
+        } else if (data.status === "new") {
+            window.location.href = data.redirectUrl;
+            return; // Stop further execution to avoid showing overlay
+        } else {
+            messageElement.innerHTML = "<b>🔴 Error 🔴</b><br>We're sorry, an error occurred. If you continue to receive this error, please contact mdm@mavenx.co";
+            messageElement.className = "message error";
+            overlay.style.display = 'flex';
+            messageElement.style.display = 'block';
+        }
+    })
+    .catch(error => {
+        loadingElement.style.display = 'none'; // Hide the loading animation
+        messageElement.innerHTML = "<b>🔴 Error 🔴</b><br>We're sorry, an error occurred. If you continue to receive this error, please contact mdm@mavenx.co";
+        messageElement.className = "message error";
+        overlay.style.display = 'flex';
+        messageElement.style.display = 'block';
+    });
+}
+
+function closeOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function onTurnstileVerified(token) {
+    // Save the token in the Turnstile element's data attribute
+    document.querySelector('.cf-turnstile').dataset.token = token;
+    console.log('Turnstile verified:', token);
+}
+
+// Auto Height Airtable Form
+document.addEventListener("DOMContentLoaded", function () {
+    const iframe = document.getElementById("airtableForm");
+
+    window.addEventListener("message", function (event) {
+        // Ensure the message is coming from Airtable
+        if (event.origin === "https://airtable.com") {
+            const data = event.data;
+            // Check if data is an object and has height information
+            if (typeof data === "object" && data.type === "embed-height") {
+                iframe.style.height = `${data.height}px`;
+            }
+        }
+    });
+});
+
 // Processing App
 document.addEventListener("DOMContentLoaded", function () {
     const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
@@ -138,8 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Prepare response message and add premium text styling
             let message = data.message || "Thank you for your application!";
-            message = message.replace("MavenX", "<span class='response-text-highlight'>MavenX</span>");
-            message = message.replace("Primary Care", "<span class='response-text-highlight'>Primary Care</span>");
             responseTextElement.innerHTML = message; // Insert formatted message
             
             // Fade in the response message

@@ -1,6 +1,28 @@
 /* styles.css */
         @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;700&display=swap');
 
+
+        :root {
+            --primary-color: #00C3E1;
+            --background-color: #fafafc;
+            --text-color: #333;
+            --accent-color: #fd5f6d;
+        }
+        /* Prevent horizontal scrolling + enforce min-width */
+        html, body {
+            min-width: 320px;
+            overflow-x: hidden;
+        }
+        /* Ensure all elements are contained within the viewport */
+        * {
+            box-sizing: border-box;
+        }
+        .header,
+        .footer,
+        .content-container,
+        .content {
+            min-width: 320px; /* Ensures no container shrinks below 320px */
+        }
         body {
             font-family: 'Raleway', sans-serif;
             margin: 0;
@@ -10,7 +32,11 @@
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            color: #333;
+            color: var(--text-color);
+        }
+        h1,
+        h2 {
+            text-align: center;
         }
         .background {
             background: #ffffff;
@@ -22,14 +48,15 @@
             z-index: -1;
         }
         .header {
-            background-color: #fafafc; /* Main color */
+            background-color: var(--background-color); /* Main color */
             color: #101213;
             padding: 20px 0;
             text-align: center;
             width: 100%;
         }
         .header img {
-            height: 125px;
+            width: 400px;
+            height: auto;
             vertical-align: middle;
         }
         .content {
@@ -45,7 +72,6 @@
             align-items: center;
             animation: fadeIn 1s ease-in-out;
             position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
         .divider {
@@ -66,7 +92,7 @@
         }
         .button-container a {
             padding: 10px 20px;
-            background-color: #00C3E1;
+            background-color: var(--primary-color);
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -78,9 +104,20 @@
         .button-container a:hover {
             background-color: #33a0c1;
         }
+        
+        .button-container a,
+        .submit-button,
+        .continue-button {
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .button-container a:hover,
+        .submit-button:hover,
+        .continue-button:hover {
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+        }
         .submit-button {
             padding: 10px 20px;
-            background-color: #00C3E1;
+            background-color: var(--primary-color);
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -94,24 +131,19 @@
         }
         .footer {
             background-color: #101213; /* Main color */
-            color: #fafafc;
+            color: var(--background-color);
             text-align: center;
             padding: 45px 20px;
             width: 100%;
             margin: 0 auto;
         }
         .footer a {
-            color: #00C3E1;
+            color: var(--primary-color);
             text-decoration: none;
         }
-        @media (max-width: 768px) {
-    .footer {
-            padding: 20px 10px; /* Adjust padding for smaller screens */
-            width: 100%; /* Adjust width for smaller screens */
-            }
-        }
+        
         .disclaimer {
-            background-color: #00c3e1;
+            background-color: var(--primary-color);
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 15px;
@@ -153,45 +185,14 @@
         .progress-bar {
             width: 0;
             height: 100%;
-            background-color: #00C3E1; /* Default color */
+            background-color: var(--primary-color); /* Default color */
             border-radius: 0px;
             text-align: center;
             line-height: 25px; /* Center the text vertically */
             color: white;
             transition: width 1s ease-in-out, background-color 1s ease-in-out; /* Add transition for width and background color */
         }
-        @media (max-width: 768px) {
-            .content {
-                width: 100%;
-            }
-            .notification-bar {
-                padding: 15px 10px; /* Adjusted for mobile view */
-            }
-    
-            .close-btn-notification-bar {
-                right: 5px;
-            }
-            .notification-bar a.notification-button {
-                display: block; /* Make button block element to stack below text */
-                margin: 10px auto 0 auto; /* Center button and add margin above */
-            }
-        }
-        @media (max-width: 480px) {
-            .background {
-                display: none;
-            }
-            .content {
-                width: 100%;
-                max-width: 100%;
-                margin: 0;
-                box-shadow: none;
-                border-radius: 0;
-                padding: 0;
-            }
-            .header img {
-                height: 100px;
-            }
-        }
+        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -205,7 +206,7 @@
         /* Notification Bar */
         .notification-bar {
             background-color: #ffcc00;
-            color: #333;
+            color: var(--text-color);
             text-align: center;
             padding: 15px 20px; /* Added horizontal padding */
             width: 100%;
@@ -232,7 +233,7 @@
             border: none;
             font-size: 20px;
             font-weight: bold;
-            color: #333;
+            color: var(--text-color);
             cursor: pointer;
             position: absolute;
             right: 25px;
@@ -240,7 +241,7 @@
             transform: translateY(-50%);
         }
         .notification-bar a.notification-button {
-            background-color: #333;
+            background-color: var(--text-color);
             color: #fff;
             text-decoration: none;
             padding: 10px 20px;
@@ -271,14 +272,14 @@
 
         .section h2 {
             font-size: 24px;
-            color: #00C3E1;
+            color: var(--primary-color);
             margin-bottom: 10px;
         }
 
         .section a {
             display: block;
             padding: 10px 20px;
-            background-color: #00C3E1;
+            background-color: var(--primary-color);
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -299,7 +300,6 @@
             margin-top: 20px;
         }
         
-        /* Centering the input-wrapper on the page */
         .email-container {
             display: flex;
             justify-content: center;
@@ -343,12 +343,14 @@
             padding: 15px 25px;
             border: none;
             border-radius: 25px;
-            background-color: #00C3E1;
+            background-color: var(--primary-color);
             color: #fff;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             outline: none;
+            display: block;
+            margin: 0 auto;
         }
         
         .cf-turnstile {
@@ -377,7 +379,7 @@
         }
         
         .message.info {
-            color: #00C3E1;
+            color: var(--primary-color);
         }
 
         .message.success {
@@ -391,142 +393,11 @@
         .close-button {
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #00C3E1;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-        }
-        
-        /* Media Queries for Tablets */
-        @media screen and (max-width: 768px) {
-            .content {
-                padding: 20px;
-                width: 95%;
-            }
-
-            input[type="email"],
-            input[type="tel"] {
-                width: 250px;
-                font-size: 14px;
-            }
-
-            button.submit-button {
-                padding: 12px 20px;
-                font-size: 14px;
-            }
-
-            .section h2 {
-                font-size: 22px;
-            }
-
-            .section a {
-                padding: 8px 15px;
-                font-size: 14px;
-            }
-        }
-
-        /* Media Queries for Mobile Phones */
-        @media screen and (max-width: 480px) {
-            .content {
-                padding: 15px;
-                width: 100%;
-            }
-
-            input[type="email"],
-            input[type="tel"] {
-                width: 100%;
-                font-size: 14px;
-                margin-right: 0;
-                margin-bottom: 10px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            button.submit-button {
-                padding: 10px 18px;
-                font-size: 14px;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-            
-
-            .input-wrapper {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .section h2 {
-                font-size: 20px;
-            }
-
-            .section a {
-                padding: 7px 12px;
-                font-size: 14px;
-            }
-        }
-        
-        .loader {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-
-        .circle {
-            position: absolute;
-            border: 8px solid transparent;
-            border-top: 8px solid #00C3E1; /* MANÜ Blue */
-            border-radius: 50%;
-            animation: spin 2s linear infinite;
-        }
-
-        .circle:nth-child(1) {
-            width: 120px;
-            height: 120px;
-            animation-duration: 1.5s;
-        }
-
-        .circle:nth-child(2) {
-            width: 90px;
-            height: 90px;
-            top: 15px;
-            left: 15px;
-            border-top-color: #040404; /* MANÜ Dark */
-            animation-duration: 1.8s;
-        }
-
-        .circle:nth-child(3) {
-            width: 60px;
-            height: 60px;
-            top: 30px;
-            left: 30px;
-            border-top-color: #00C3E1; /* MANÜ Blue */
-            animation-duration: 2.2s;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            margin-top: 20px;
-            font-family: 'Raleway', sans-serif;
-            font-size: 18px;
-            color: #040404; /* MANÜ Dark */
-            text-align: center;
-        }
-        
-        /* Prevent horizontal scrolling */
-        html, body {
-            overflow-x: hidden;
-        }
-
-        /* Ensure all elements are contained within the viewport */
-        * {
-            box-sizing: border-box;
         }
         
         /* MDM AI Orb CSS */
@@ -540,9 +411,9 @@
             width: 160px;
             height: 160px;
             border-radius: 50%;
-            background: radial-gradient(circle, #00c3e1, #fafafc, #fd5f6d);
+            background: radial-gradient(circle, var(--primary-color), var(--background-color), var(--accent-color));
             animation: orbBreath 4s ease-in-out infinite, orbGlow 1s ease-in-out infinite alternate;
-            box-shadow: 0px 0px 60px rgba(0, 195, 225, 0.2), 0px 0px 100px rgba(162, 235, 255, 0.4), 0px 0px 200px rgba(255, 255, 255, 0.1);
+            box-shadow: 0px 0px 40px rgba(0, 195, 225, 0.2), 0px 0px 80px rgba(162, 235, 255, 0.3), 0px 0px 120px rgba(255, 255, 255, 0.1);
             opacity: 0.95;
         }
 
@@ -568,11 +439,11 @@
         .processing-text {
             font-size: 1.2em;
             font-weight: bold;
-            background: linear-gradient(90deg, #00c3e1, #fafafc, #fd5f6d, #fafafc, #00c3e1);
+            background: linear-gradient(90deg, var(--primary-color), var(--background-color), var(--accent-color), var(--background-color), var(--primary-color));
             background-size: 300% 300%;
             -webkit-background-clip: text;
             color: transparent;
-            animation: gradientShift 5s linear infinite;
+            animation: gradientShift 15s linear infinite;
         }
         
         @keyframes gradientAnimation {
@@ -586,20 +457,11 @@
                 background-position: 0% 50%;
             }
         }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
         
         .response-text {
             font-size: 1.2em;
             line-height: 1.5;
-            color: #333333;
+            color: var(--text-color);
             font-weight: 500;
             padding: 20px;
             margin-top: 20px;
@@ -608,7 +470,7 @@
         }
 
         .response-text-highlight {
-            color: #00C3E1;
+            color: var(--primary-color);
             font-weight: bold;
         }
 
@@ -617,7 +479,7 @@
             font-size: 16px;
             font-weight: 600;
             margin-top: 20px;
-            background-color: #00C3E1;
+            background-color: var(--primary-color);
             color: #ffffff;
             border: none;
             cursor: pointer;
@@ -636,3 +498,108 @@
             font-weight: bold;
             opacity: 1;
         }
+        
+        /* Media Inputs */
+        @media screen and (max-width: 768px) {
+        .footer {
+            padding: 20px 10px;
+            width: 100%;
+                }
+        .content {
+            width: 100%;
+            padding: 20px;
+        }
+        .notification-bar {
+            padding: 15px 10px;
+        }
+    
+        .close-btn-notification-bar {
+            right: 5px;
+        }
+        .notification-bar a.notification-button {
+            display: block; /* Make button block element to stack below text */
+            margin: 10px auto 0 auto; /* Center button and add margin above */
+        }
+        
+        input[type="email"],
+            input[type="tel"] {
+                width: 250px;
+                font-size: 14px;
+            }
+
+            button.submit-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .section h2 {
+                font-size: 22px;
+            }
+
+            .section a {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            }
+        
+    @media screen and (max-width: 480px) {
+        .background {
+            display: none;
+        }
+        h1 {
+            font-size: 1.5em;
+        }
+        .content {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            box-shadow: none;
+            padding: 15px;
+            min-height: 50vh;
+        }
+        .header img {
+            width: 75%;
+        }
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            font-size: 14px;
+            margin-right: 0;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 12px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        button.submit-button {
+            padding: 10px 18px;
+            font-size: 14px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+            
+
+        .input-wrapper {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section h2 {
+            font-size: 20px;
+        }
+
+        .section a {
+            padding: 7px 12px;
+            font-size: 14px;
+        }
+        .encouragement {
+            font-size: 1em;
+            padding: 10px;
+        }
+        .footer {
+            padding: 20px;
+        }
+    }
