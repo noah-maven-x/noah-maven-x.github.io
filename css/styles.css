@@ -45,6 +45,13 @@
             align-items: center;
             animation: fadeIn 1s ease-in-out;
             position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .divider {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ddd;
         }
         .message {
             display: none;
@@ -555,4 +562,77 @@
             100% {
         box-shadow: 0px 0px 80px rgba(0, 195, 225, 0.5), 0px 0px 140px rgba(253, 95, 109, 0.7), inset 0px 0px 50px rgba(255, 250, 252, 0.8);
             }
+        }
+        
+        /* CSS for Processing App */
+        .processing-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00c3e1, #fafafc, #fd5f6d, #fafafc, #00c3e1);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradientShift 5s linear infinite;
+        }
+        
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        .response-text {
+            font-size: 1.2em;
+            line-height: 1.5;
+            color: #333333;
+            font-weight: 500;
+            padding: 20px;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+        }
+
+        .response-text-highlight {
+            color: #00C3E1;
+            font-weight: bold;
+        }
+
+        .continue-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            background-color: #00C3E1;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .continue-button:hover {
+            background-color: #009bb5;
+        }
+        
+        .error-message {
+            color: red;
+            font-weight: bold;
+            opacity: 1;
         }

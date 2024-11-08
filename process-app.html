@@ -56,49 +56,6 @@
             animation: gradientAnimation 15s ease infinite;
             overflow-x: hidden;
         }
-
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .content {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .divider {
-            margin: 20px 0;
-            border: none;
-            border-top: 1px solid #ddd;
-        }
-        
-        .processing-text {
-            font-size: 1.2em;
-            font-weight: bold;
-            background: linear-gradient(90deg, #00c3e1, #fafafc, #fd5f6d, #fafafc, #00c3e1);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: gradientShift 5s linear infinite;
-        }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
     </style>
 </head>
 
@@ -110,8 +67,6 @@
     </div>
     <div class="content-container">
         <div class="content">
-            <h1>Your Application Is Submitted</h1>
-            <p>Our AI is currently analyzing your application information. If accepted, you'll be redirected to the next step. This process may take 10-30 seconds.</p>
             <div class="orb-container">
                 <div class="orb"></div>
             </div>
@@ -120,49 +75,6 @@
     <div class="footer">
         &copy; Copyright 2024 Maven Digital Marketing | Developed by <a href="https://mavenx.co">Maven X LLC</a> | All Rights Reserved
     </div>
-    
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
-
-        // Get the 'id' parameter from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const applicationId = urlParams.get("id");
-
-        if (!applicationId) {
-            console.error("No application ID found in the URL.");
-            return;
-        }
-
-        // Display processing message
-            const processingMessage = document.createElement("p");
-            processingMessage.textContent = "Analyzing your application...";
-            processingMessage.className = "processing-text"; // Add class for gradient styling
-            document.querySelector(".content").appendChild(processingMessage);
-
-        // Simulate a delay to show the "AI processing" effect
-        setTimeout(() => {
-            fetch(approvalCheckURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ applicationId: applicationId }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "approved") {
-                    window.location.href = "https://onboard.mavendigital.net/calendar-booking";
-                } else {
-                    window.location.href = "https://onboard.mavendigital.net/not-approved";
-                }
-            })
-            .catch(error => {
-                console.error("Error with the approval check:", error);
-                processingMessage.textContent = "An error occurred. Please try again later.";
-            });
-        }, 10000); // Wait 10 seconds before sending the request
-    });
-</script>
+    <script src="javascript/scripts.js"></script>
 </body>
 </html>

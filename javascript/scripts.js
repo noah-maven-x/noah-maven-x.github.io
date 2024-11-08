@@ -94,10 +94,84 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Page 1 - Load the Onboard Page Airtable
-// No code required
+// Processing App
+document.addEventListener("DOMContentLoaded", function () {
+    const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
+    const urlParams = new URLSearchParams(window.location.search);
+    const applicationId = urlParams.get("id");
 
-// Page 2 - Load the Appointment Page Booking iFrame
+    if (!applicationId) {
+        console.error("No application ID found in the URL.");
+        return;
+    }
+
+    // Display "Analyzing your application..." message below header
+    const processingMessage = document.createElement("p");
+    processingMessage.textContent = "Analyzing your application...";
+    processingMessage.className = "processing-text";
+    document.querySelector(".content").appendChild(processingMessage);
+
+    // Placeholder for response text
+    const responseTextElement = document.createElement("p");
+    responseTextElement.className = "response-text";
+    document.querySelector(".content").appendChild(responseTextElement);
+
+    // Continue button, initially hidden
+    const continueButton = document.createElement("button");
+    continueButton.className = "continue-button";
+    continueButton.textContent = "Continue";
+    continueButton.style.display = "none"; // Hide initially
+    document.querySelector(".content").appendChild(continueButton);
+
+    setTimeout(() => {
+        fetch(approvalCheckURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ applicationId: applicationId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide processing text
+            processingMessage.style.display = "none";
+
+            // Prepare response message and add premium text styling
+            let message = data.message || "Thank you for your application!";
+            message = message.replace("MavenX", "<span class='response-text-highlight'>MavenX</span>");
+            message = message.replace("Primary Care", "<span class='response-text-highlight'>Primary Care</span>");
+            responseTextElement.innerHTML = message; // Insert formatted message
+            
+            // Fade in the response message
+            responseTextElement.style.opacity = 1;
+
+            // Show the Continue button once the message is fully visible
+            continueButton.style.display = "inline-block";
+            continueButton.onclick = function() {
+            let nextUrl = data.status === "approved"
+                ? "https://onboard.mavendigital.net/calendar-booking"
+                : "https://onboard.mavendigital.net/not-approved"; // Redirect to not-approved if denied
+
+            // Add contact_id as URL parameter if it exists
+            if (data.contact_id) {
+                nextUrl += `?contact_id=${encodeURIComponent(data.contact_id)}`;
+            }
+
+            window.location.href = nextUrl;
+        };
+        })
+        .catch(error => {
+            console.error("Error with the approval check:", error);
+            processingMessage.style.display = "none";
+            
+            responseTextElement.textContent = "An error occurred. Please try again later.";
+            responseTextElement.className = "error-message";
+            responseTextElement.style.opacity = 1; // Ensure visibility
+        });
+    }, 10000); // Wait 10 seconds before sending the request
+});
+
+// Load the Appointment Page Booking iFrame
 function loadAppointmentForm() {
     const params = getQueryParams();
     const contact_id = params.contact_id;
