@@ -97,64 +97,21 @@ document.addEventListener('DOMContentLoaded', function () {
 // Page 1 - Load the Onboard Page Airtable
 // No code required
 
-// Page 2 - Load the Plans Page Typeform iFrame
-function loadPlansTypeform() {
-    const params = getQueryParams();
-    const patient_id = params.patient_id;
-    const firstname = params.firstname;
-    const unlock = params.unlock;
-
-    if (patient_id && firstname) {
-        // Default Flow
-        const typeformURL = `https://manutelehealth.typeform.com/to/dVNpNZfL#patient_id=${encodeURIComponent(patient_id)}&firstname=${encodeURIComponent(firstname)}`;
-        const iframe = document.getElementById('typeform-embed');
-        iframe.src = typeformURL;
-        iframe.style.display = 'block';
-    } else if (unlock === 'true') {
-        // Allow access if the unlock parameter is present and true
-        const typeformURL = `https://manutelehealth.typeform.com/to/dVNpNZfL`;
-        const iframe = document.getElementById('typeform-embed');
-        iframe.src = typeformURL;
-        iframe.style.display = 'block';
-    }  else {
-        const errorMessage = document.getElementById('errorMessage');
-        const buttonContainer = document.getElementById('buttonContainer');
-        errorMessage.style.display = 'block';
-        buttonContainer.style.display = 'block';
-    }
-}
-
-// Page 3 - Load the Appointment Page Booking iFrame
+// Page 2 - Load the Appointment Page Booking iFrame
 function loadAppointmentForm() {
     const params = getQueryParams();
     const contact_id = params.contact_id;
-    const language = params.language;
     const unlock = params.unlock;
 
-    if (contact_id && language === 'English') {
+    if (contact_id) {
         // Default Flow
         const iframe = document.getElementById('ghl-embed');
-        iframe.src = `https://api.leadconnectorhq.com/widget/booking/MjjM8tSZmSf8zT2hRqFK?contact_id=${encodeURIComponent(contact_id)}`;
+        iframe.src = `https://api.leadconnectorhq.com/widget/booking/2D7dBjxKShTMuG2QeU8f?contact_id=${encodeURIComponent(contact_id)}`;
         iframe.style.display = 'block';
-    } else if (contact_id && language === 'Español') {
-        // Default Flow
-        const iframe = document.getElementById('ghl-embed');
-        iframe.src = `https://api.leadconnectorhq.com/widget/booking/C8xautGH26UrGtij030A?contact_id=${encodeURIComponent(contact_id)}`;
-        iframe.style.display = 'block';
-    } else if (language === 'English' && unlock === 'true') {
+    }  else if (unlock === 'true') {
         // Allow access if the unlock parameter is present and true
         const iframe = document.getElementById('ghl-embed');
-        iframe.src = `https://api.leadconnectorhq.com/widget/booking/MjjM8tSZmSf8zT2hRqFK`;
-        iframe.style.display = 'block';
-    } else if (language === 'Español' && unlock === 'true') {
-        // Allow access if the unlock parameter is present and true
-        const iframe = document.getElementById('ghl-embed');
-        iframe.src = `https://api.leadconnectorhq.com/widget/booking/C8xautGH26UrGtij030A`;
-        iframe.style.display = 'block';
-    } else if (unlock === 'true') {
-        // Allow access if the unlock parameter is present and true
-        const iframe = document.getElementById('ghl-embed');
-        iframe.src = `https://api.leadconnectorhq.com/widget/booking/MjjM8tSZmSf8zT2hRqFK`;
+        iframe.src = `https://api.leadconnectorhq.com/widget/booking/2D7dBjxKShTMuG2QeU8f`;
         iframe.style.display = 'block';
     } else {
         const errorMessage = document.getElementById('errorMessage');
@@ -207,10 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load specific functions based on the current page
     if (pathname.includes('application')) {
         setupProgressBar(25, "Welcome! Let's get started with your onboarding.");
-    } else if (pathname.includes('plans')) {
-        loadPlansTypeform();
-        setupProgressBar(50, "You're halfway there! Choose the plan that suits you best.");
-    } else if (pathname.includes('appointment')) {
+    } else if (pathname.includes('calendar-booking')) {
+        loadAppointmentForm();
+        setupProgressBar(50, "Great! Now let's set up your initial onboard appointment.");
+    } else if (pathname.includes('calendar-booking')) {
         loadAppointmentForm();
         setupProgressBar(75, "You're just about done! Let's set up your initial appointment.");
     } else if (pathname.includes('complete')) {

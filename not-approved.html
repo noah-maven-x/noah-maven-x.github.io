@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Approved - Maven Digital Marketing</title>
+    <meta name="description" content="XXX">
+    <link rel="canonical" href="https://mavendigital.net/start">
+    <meta property="og:title" content="Patient Onboarding - Maven Digital Marketing">
+    <meta property="og:description" content="XXX">
+    <meta property="og:image" content="https://mavendigital.net/images/social-share-image.jpg">
+    <meta property="og:url" content="https://mavendigital.net/start">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Patient Onboarding - Maven Digital Marketing">
+    <meta name="twitter:description" content="XXX">
+    <meta name="twitter:image" content="https://mavendigital.net/img/social-share-image.jpg">
+    <meta name="twitter:url" content="https://mavendigital.net/start">
+    <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Maven Digital Marketing",
+      "url": "https://mavendigital.net",
+      "description": "XXX",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Maven Digital Marketing",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mavendigital.net/img/2023-08-manu-main.jpg"
+        }
+      }
+    }
+    </script>
+    <link rel="icon" href="https://mavendigital.net/wp-content/uploads/2024/01/cropped-favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Hotjar Tracking Code for Maven Digital Marketing -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:5199876,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #00C3E1, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .divider {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="https://mavendigital.net">
+            <img src="img/logo-side-light.png" alt="Maven Digital Marketing Logo" style="width:400px; height:auto;">
+        </a>
+    </div>
+    <div class="content-container">
+        <div class="content">
+            <h1 style="color:red;">Your Application Was Not Approved</h1>
+            <p>We are sorry, but your application was not approved. If you feel like this is a mistake, you can feel free to contact us using our contact page.</p>
+            <a href="https://mavendigital.co/contact" class="submit-button-link">
+                <button class="submit-button">Contact Us</button>
+            </a>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2024 Maven Digital Marketing | Developed by <a href="https://mavenx.co">Maven X LLC</a> | All Rights Reserved
+    </div>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
+
+        // Get the 'id' parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const applicationId = urlParams.get("id");
+
+        if (!applicationId) {
+            console.error("No application ID found in the URL.");
+            return;
+        }
+
+        // Display processing message
+            const processingMessage = document.createElement("p");
+            processingMessage.textContent = "Analyzing your application...";
+            processingMessage.className = "processing-text"; // Add class for gradient styling
+            document.querySelector(".content").appendChild(processingMessage);
+
+        // Simulate a delay to show the "AI processing" effect
+        setTimeout(() => {
+            fetch(approvalCheckURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ applicationId: applicationId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "approved") {
+                    window.location.href = "https://onboard.mavendigital.net/calendar-booking";
+                } else {
+                    window.location.href = "https://onboard.mavendigital.net/not-approved";
+                }
+            })
+            .catch(error => {
+                console.error("Error with the approval check:", error);
+                processingMessage.textContent = "An error occurred. Please try again later.";
+            });
+        }, 10000); // Wait 10 seconds before sending the request
+    });
+</script>
+</body>
+</html>
