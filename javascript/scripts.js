@@ -200,6 +200,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Application Airtable Auto-height
+document.addEventListener("DOMContentLoaded", function () {
+    const iframe = document.getElementById("airtableForm");
+
+    // Listen for messages from Airtable iframe
+    window.addEventListener("message", function (event) {
+        // Ensure the message is from Airtable
+        if (event.origin === "https://airtable.com") {
+            const data = event.data;
+            // Check if the data object has the expected height information
+            if (typeof data === "object" && data.type === "embed-height") {
+                // Set the iframe height to match the form's content height
+                iframe.style.height = `${data.height}px`;
+            }
+        }
+    });
+});
+
 // Processing App
 document.addEventListener("DOMContentLoaded", function () {
     const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";

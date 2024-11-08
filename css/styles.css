@@ -603,3 +603,14 @@
             padding: 20px;
         }
     }
+    
+    #airtableForm {
+        height: 2100px;
+    }
+
+        /* Mobile Portrait */
+        @media screen and (max-width: 480px) {
+            #airtableForm {
+                height: 2550px; /* Adjusted height for portrait mobile */
+            }
+        }
