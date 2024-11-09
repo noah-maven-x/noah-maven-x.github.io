@@ -230,79 +230,85 @@ function loadTypeform() {
 
 // Processing App
 document.addEventListener("DOMContentLoaded", function () {
-    const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
-    const urlParams = new URLSearchParams(window.location.search);
-    const email = urlParams.get("email");
-    const phone = urlParams.get("phone");
+    // Get the current page path
+    const currentPath = window.location.pathname;
+    
+    // Only execute if we're on the process-app page
+    if (currentPath.contains('process-app')) {
+        const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get("email");
+        const phone = urlParams.get("phone");
 
-    // Validate email and phone presence
-    if (!email || !phone) {
-        console.error("Missing email or phone in the URL.");
-        return;
+        // Validate email and phone presence
+        if (!email || !phone) {
+            console.error("Missing email or phone in the URL.");
+            return;
+        }
+
+        // Display "Analyzing your application..." message below header
+        const processingMessage = document.createElement("p");
+        processingMessage.textContent = "Analyzing your application...";
+        processingMessage.className = "processing-text";
+        document.querySelector(".content").appendChild(processingMessage);
+
+        // Placeholder for response text
+        const responseTextElement = document.createElement("p");
+        responseTextElement.className = "response-text";
+        document.querySelector(".content").appendChild(responseTextElement);
+
+        // Continue button, initially hidden
+        const continueButton = document.createElement("button");
+        continueButton.className = "continue-button";
+        continueButton.textContent = "Continue";
+        continueButton.style.display = "none"; // Hide initially
+        document.querySelector(".content").appendChild(continueButton);
+
+        setTimeout(() => {
+            fetch(approvalCheckURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: email, phone: phone }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide processing text
+                processingMessage.style.display = "none";
+
+                // Prepare response message and add premium text styling
+                let message = data.message || "Thank you for your application!";
+                responseTextElement.innerHTML = message; // Insert formatted message
+                
+                // Fade in the response message
+                responseTextElement.style.opacity = 1;
+
+                // Show the Continue button once the message is fully visible
+                continueButton.style.display = "inline-block";
+                continueButton.onclick = function() {
+                    let nextUrl = data.status === "approved"
+                        ? "https://onboard.mavendigital.net/calendar-booking"
+                        : "https://onboard.mavendigital.net/not-approved"; // Redirect to not-approved if denied
+
+                    // Add contact_id as URL parameter if it exists
+                    if (data.contact_id) {
+                        nextUrl += `?contact_id=${encodeURIComponent(data.contact_id)}`;
+                    }
+
+                    window.location.href = nextUrl;
+                };
+            })
+            .catch(error => {
+                console.error("Error with the approval check:", error);
+                processingMessage.style.display = "none";
+                
+                responseTextElement.textContent = "An error occurred. Please try again later.";
+                responseTextElement.className = "error-message";
+                responseTextElement.style.opacity = 1; // Ensure visibility
+            });
+        }, 10000); // Wait 10 seconds before sending the request
     }
-
-    // Display "Analyzing your application..." message below header
-    const processingMessage = document.createElement("p");
-    processingMessage.textContent = "Analyzing your application...";
-    processingMessage.className = "processing-text";
-    document.querySelector(".content").appendChild(processingMessage);
-
-    // Placeholder for response text
-    const responseTextElement = document.createElement("p");
-    responseTextElement.className = "response-text";
-    document.querySelector(".content").appendChild(responseTextElement);
-
-    // Continue button, initially hidden
-    const continueButton = document.createElement("button");
-    continueButton.className = "continue-button";
-    continueButton.textContent = "Continue";
-    continueButton.style.display = "none"; // Hide initially
-    document.querySelector(".content").appendChild(continueButton);
-
-    setTimeout(() => {
-        fetch(approvalCheckURL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: email, phone: phone }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Hide processing text
-            processingMessage.style.display = "none";
-
-            // Prepare response message and add premium text styling
-            let message = data.message || "Thank you for your application!";
-            responseTextElement.innerHTML = message; // Insert formatted message
-            
-            // Fade in the response message
-            responseTextElement.style.opacity = 1;
-
-            // Show the Continue button once the message is fully visible
-            continueButton.style.display = "inline-block";
-            continueButton.onclick = function() {
-                let nextUrl = data.status === "approved"
-                    ? "https://onboard.mavendigital.net/calendar-booking"
-                    : "https://onboard.mavendigital.net/not-approved"; // Redirect to not-approved if denied
-
-                // Add contact_id as URL parameter if it exists
-                if (data.contact_id) {
-                    nextUrl += `?contact_id=${encodeURIComponent(data.contact_id)}`;
-                }
-
-                window.location.href = nextUrl;
-            };
-        })
-        .catch(error => {
-            console.error("Error with the approval check:", error);
-            processingMessage.style.display = "none";
-            
-            responseTextElement.textContent = "An error occurred. Please try again later.";
-            responseTextElement.className = "error-message";
-            responseTextElement.style.opacity = 1; // Ensure visibility
-        });
-    }, 10000); // Wait 10 seconds before sending the request
 });
 
 // Load the Appointment Page Booking iFrame
