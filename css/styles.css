@@ -614,3 +614,55 @@
                 height: 2550px; /* Adjusted height for portrait mobile */
             }
         }
+        
+    /* Verify ID CSS */
+    .loader {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .circle {
+            position: absolute;
+            border: 8px solid transparent;
+            border-top: 8px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        .circle:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            animation-duration: 1.5s;
+        }
+
+        .circle:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 15px;
+            left: 15px;
+            border-top-color: var(--text-color);
+            animation-duration: 1.8s;
+        }
+
+        .circle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 30px;
+            left: 30px;
+            border-top-color: var(--primary-color);
+            animation-duration: 2.2s;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 18px;
+            color: var(--text-color);
+            text-align: center;
+        }

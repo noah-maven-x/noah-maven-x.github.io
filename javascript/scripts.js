@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Load the Onboard Page Typeform iFrame
-function loadOnboardTypeform() {
+function loadTypeform() {
     const params = getQueryParams();
     const email = params.email;
     const phone = params.phone;
@@ -232,10 +232,12 @@ function loadOnboardTypeform() {
 document.addEventListener("DOMContentLoaded", function () {
     const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
     const urlParams = new URLSearchParams(window.location.search);
-    const applicationId = urlParams.get("id");
+    const email = urlParams.get("email");
+    const phone = urlParams.get("phone");
 
-    if (!applicationId) {
-        console.error("No application ID found in the URL.");
+    // Validate email and phone presence
+    if (!email || !phone) {
+        console.error("Missing email or phone in the URL.");
         return;
     }
 
@@ -263,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ applicationId: applicationId }),
+            body: JSON.stringify({ email: email, phone: phone }),
         })
         .then(response => response.json())
         .then(data => {
@@ -280,17 +282,17 @@ document.addEventListener("DOMContentLoaded", function () {
             // Show the Continue button once the message is fully visible
             continueButton.style.display = "inline-block";
             continueButton.onclick = function() {
-            let nextUrl = data.status === "approved"
-                ? "https://onboard.mavendigital.net/calendar-booking"
-                : "https://onboard.mavendigital.net/not-approved"; // Redirect to not-approved if denied
+                let nextUrl = data.status === "approved"
+                    ? "https://onboard.mavendigital.net/calendar-booking"
+                    : "https://onboard.mavendigital.net/not-approved"; // Redirect to not-approved if denied
 
-            // Add contact_id as URL parameter if it exists
-            if (data.contact_id) {
-                nextUrl += `?contact_id=${encodeURIComponent(data.contact_id)}`;
-            }
+                // Add contact_id as URL parameter if it exists
+                if (data.contact_id) {
+                    nextUrl += `?contact_id=${encodeURIComponent(data.contact_id)}`;
+                }
 
-            window.location.href = nextUrl;
-        };
+                window.location.href = nextUrl;
+            };
         })
         .catch(error => {
             console.error("Error with the approval check:", error);
@@ -356,11 +358,6 @@ function setupProgressBar(progress, message) {
     progressBar.textContent = progress + '%';
     progressBar.style.backgroundColor = color; // Set the background color
     encouragementText.textContent = message;
-}
-
-// Function to setup the Onboard page
-function setupOnboardPage() {
-    setupProgressBar(25, "Welcome! Let's get started with your onboarding.");
 }
 
 // Progress bar
