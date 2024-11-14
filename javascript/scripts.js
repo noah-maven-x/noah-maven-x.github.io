@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Start Page
+// --------> Start Page <--------
 function timeoutPromise(ms, message) {
     return new Promise((_, reject) =>
         setTimeout(() => reject(new Error(message)), ms)
@@ -184,23 +184,7 @@ function onTurnstileVerified(token) {
     console.log('Turnstile verified:', token);
 }
 
-// Auto Height Airtable Form
-document.addEventListener("DOMContentLoaded", function () {
-    const iframe = document.getElementById("airtableForm");
-
-    window.addEventListener("message", function (event) {
-        // Ensure the message is coming from Airtable
-        if (event.origin === "https://airtable.com") {
-            const data = event.data;
-            // Check if data is an object and has height information
-            if (typeof data === "object" && data.type === "embed-height") {
-                iframe.style.height = `${data.height}px`;
-            }
-        }
-    });
-});
-
-// Load the Onboard Page Typeform iFrame
+// --------> Load the Application Page Typeform iFrame <--------
 function loadTypeform() {
     const params = getQueryParams();
     const email = params.email;
@@ -228,13 +212,13 @@ function loadTypeform() {
     }
 }
 
-// Processing App
+// --------> Processing App <--------
 document.addEventListener("DOMContentLoaded", function () {
     // Get the current page path
     const currentPath = window.location.pathname;
     
     // Only execute if we're on the process-app page
-    if (currentPath.contains('process-app')) {
+    if (currentPath.includes('process-app')) {
         const approvalCheckURL = "https://hook.us1.make.com/jofnuivdqguoi3kirp7upi26xv0uul6k";
         const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get("email");
@@ -311,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Load the Appointment Page Booking iFrame
+// --------> Load the Appointment Page Booking iFrame <--------
 function loadAppointmentForm() {
     const params = getQueryParams();
     const contact_id = params.contact_id;
