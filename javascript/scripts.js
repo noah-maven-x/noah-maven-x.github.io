@@ -295,8 +295,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// --------> Load the Appointment Page Booking iFrame <--------
-function loadAppointmentForm() {
+// --------> Load the Onboard Appointment Page Booking iFrame <--------
+function loadOnboardAppointmentForm() {
     const params = getQueryParams();
     const contact_id = params.contact_id;
     const unlock = params.unlock;
@@ -310,6 +310,30 @@ function loadAppointmentForm() {
         // Allow access if the unlock parameter is present and true
         const iframe = document.getElementById('ghl-embed');
         iframe.src = `https://api.leadconnectorhq.com/widget/booking/2D7dBjxKShTMuG2QeU8f`;
+        iframe.style.display = 'block';
+    } else {
+        const errorMessage = document.getElementById('errorMessage');
+        const buttonContainer = document.getElementById('buttonContainer');
+        errorMessage.style.display = 'block';
+        buttonContainer.style.display = 'block';
+    }
+}
+
+// --------> Load the Danny Booking Page iFrame <--------
+function loadDannyAppointmentForm() {
+    const params = getQueryParams();
+    const contact_id = params.contact_id;
+    const unlock = params.unlock;
+
+    if (contact_id) {
+        // Default Flow
+        const iframe = document.getElementById('ghl-danny-embed');
+        iframe.src = `https://api.leadconnectorhq.com/widget/booking/uj0Pj22M3tIwjgzufOAX?contact_id=${encodeURIComponent(contact_id)}`;
+        iframe.style.display = 'block';
+    }  else if (unlock === 'true') {
+        // Allow access if the unlock parameter is present and true
+        const iframe = document.getElementById('ghl-danny-embed');
+        iframe.src = `https://api.leadconnectorhq.com/widget/booking/uj0Pj22M3tIwjgzufOAX`;
         iframe.style.display = 'block';
     } else {
         const errorMessage = document.getElementById('errorMessage');
